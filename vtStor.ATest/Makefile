@@ -6,7 +6,7 @@ CFLAGS        = -pipe -O2 -Wall -W
 CXXFLAGS      = -pipe -std=c++14 -fpermissive -O2 -Wall -W 
 
 # Define the directories.
-DEST_DIR                        = ../Debug
+DEST_DIR                        = ../LinuxRelease
 OBJECTS_DIR                     = $(DEST_DIR)/vtStorATest
 EXTERN_DIR                      = ../Extern
 COMMON_DIR                      = ../Common

@@ -16,7 +16,7 @@ vtStorAta               = vtStorAta
 vtStorScsi              = vtStorScsi
 vtStor.ATest            = vtStor.ATest
 
-ALL_PROJECTS = $(StorageUtility) $(vtStor) $(vtStorAtaProtocol) $(vtStorScsiProtocol) $(vtStorAta) $(vtStorScsi) $(vtStor.ATest)
+ALL_PROJECTS = $(StorageUtility) $(vtStor) $(vtStorAtaProtocol) $(vtStorScsiProtocol) $(vtStorAta) $(vtStorScsi) $(vtStor.ATest) ClearObj
 
 # Build all projects
 .PHONY: all $(ALL_PROJECTS)
@@ -42,6 +42,8 @@ $(vtStorScsi): $(vtStorScsiProtocol)
         
 $(vtStor.ATest): $(vtStorAta) $(vtStorScsi)
 	cd $(vtStor.ATest_DIR); make all
+ClearObj: $(vtStor.ATest)
+	rm -rf ./LinuxRelease/*/
 
 clean: 
 	cd $(StorageUtility_DIR); make clean

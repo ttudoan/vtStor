@@ -5,7 +5,7 @@ CFLAGS   = -pipe -O2 -fPIC -Wall -W
 CXXFLAGS = -pipe -std=c++14 -O2 -fPIC -Wall -W 
 
 # Define the directories.
-DEST_DIR                       = ../Debug
+DEST_DIR                       = ../LinuxRelease
 OBJECTS_DIR                     = $(DEST_DIR)/StorageUtility
 EXTERN_DIR                      = ../Extern
 COMMON_DIR                      = ../Common
