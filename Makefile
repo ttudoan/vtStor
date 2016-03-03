@@ -43,7 +43,7 @@ $(vtStorScsi): $(vtStorScsiProtocol)
 $(vtStor.ATest): $(vtStorAta) $(vtStorScsi)
 	cd $(vtStor.ATest_DIR); make all
 ClearObj: $(vtStor.ATest)
-	rm -rf ./LinuxRelease/*/
+	rm -rf ./Release/*/
 
 clean: 
 	cd $(StorageUtility_DIR); make clean
