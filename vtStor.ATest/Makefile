@@ -29,7 +29,7 @@ INCPATH       = -I. -I$(EXTERN_DIR) -I$(COMMON_DIR) -I$(COMMON_PF_X86X64_DIR) -I
                 -I$(VTSTORATA_DIR) -I$(VTSTORATA_PF_LINUX_DIR) -I$(VTSTORATAPROTOCOL_DIR) -I$(VTSTORATAPROTOCOL_PF_LINUX_DIR) -I$(VTSTORSCSI_DIR) -I$(VTSTORSCSI_PF_LINUX_DIR) -I$(VTSTORSCSIPROTOCOL_DIR) -I$(VTSTORSCSIPROTOCOL_PF_LINUX_DIR)
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) -ludev -L$(DEST_DIR)/ -lStorageUtility -lvtStor -lvtStorAtaProtocol -lvtStorAta -lvtStorScsiProtocol -lvtStorScsi
+LIBS          = $(SUBLIBS) -L$(DEST_DIR)/ -lStorageUtility -lvtStor -lvtStorAtaProtocol -lvtStorAta -lvtStorScsiProtocol -lvtStorScsi -ludev
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
 MKDIR         = mkdir -p
