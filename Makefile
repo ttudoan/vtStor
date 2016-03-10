@@ -5,7 +5,6 @@ vtStorAtaProtocol_DIR   = ./vtStorAtaProtocol
 vtStorScsiProtocol_DIR  = ./vtStorScsiProtocol
 vtStorAta_DIR           = ./vtStorAta
 vtStorScsi_DIR          = ./vtStorScsi
-vtStor.ATest_DIR        = ./vtStor.ATest
 
 # Project names
 StorageUtility          = StorageUtility
@@ -14,9 +13,8 @@ vtStorAtaProtocol       = vtStorAtaProtocol
 vtStorScsiProtocol      = vtStorScsiProtocol
 vtStorAta               = vtStorAta
 vtStorScsi              = vtStorScsi
-vtStor.ATest            = vtStor.ATest
 
-ALL_PROJECTS = $(StorageUtility) $(vtStor) $(vtStorAtaProtocol) $(vtStorScsiProtocol) $(vtStorAta) $(vtStorScsi) $(vtStor.ATest) ClearObj
+ALL_PROJECTS = $(StorageUtility) $(vtStor) $(vtStorAtaProtocol) $(vtStorScsiProtocol) $(vtStorAta) $(vtStorScsi) ClearObj
 
 # Build all projects
 .PHONY: all $(ALL_PROJECTS)
@@ -40,8 +38,6 @@ $(vtStorAta): $(vtStorAtaProtocol)
 $(vtStorScsi): $(vtStorScsiProtocol)
 	cd $(vtStorScsi_DIR); make all
         
-$(vtStor.ATest): $(vtStorAta) $(vtStorScsi)
-	cd $(vtStor.ATest_DIR); make all
 ClearObj: $(vtStor.ATest)
 	rm -rf ./Release/*/
 
@@ -52,4 +48,3 @@ clean:
 	cd $(vtStorScsiProtocol_DIR); make clean
 	cd $(vtStorAta_DIR); make clean
 	cd $(vtStorScsi_DIR); make clean
-	cd $(vtStor.ATest_DIR); make clean

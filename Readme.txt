@@ -1,5 +1,6 @@
 
 - Build vtStor on Raspbian Jessie:
+   + Use Root user to build
    + Step 1: Need to expand sd card size because default about 4 GB. reference http://elinux.org/RPi_raspi-config
    + Step 2: install libusb
          o sudo apt-get install libusb-1.0-0-dev

@@ -23,7 +23,7 @@ VTSTORATAPROTOCOL_PF_LINUX_DIR  = ../vtStorAtaProtocol/Platform/Linux
 INCPATH       = -I. -I$(EXTERN_DIR) -I$(COMMON_DIR) -I$(COMMON_PF_X86X64_DIR) -I$(COMMON_PF_X86X64_LINUX_DIR) -I$(STORAGEUTILITY_DIR) -I$(STORAGEUTILITY_LINUX_DIR) -I$(VTSTOR_DIR) -I$(VTSTOR_PF_LINUX_DIR) -I$(DEST_DIR) \
                 -I$(VTSTORATA_DIR) -I$(VTSTORATA_PF_LINUX_DIR) -I$(VTSTORATAPROTOCOL_DIR) -I$(VTSTORATAPROTOCOL_PF_LINUX_DIR) 
 LINK          = g++
-LFLAGS        = -Wl,-O1 -shared -Wl,-soname,libvtStorAta.so.1
+LFLAGS        = -Wl,-O1 -shared -Wl,-soname,libvtStorAta.so
 LIBS          = $(SUBLIBS) -ludev -L$(DEST_DIR)/ -lStorageUtility -lvtStor -lvtStorAtaProtocol 
 DEL_FILE      = rm -f
 DEL_DIR       = rmdir
@@ -41,10 +41,7 @@ SOURCES       = DriveEnumeratorAta.cpp \
 
 OBJECTS       = $(patsubst %.cpp, $(OBJECTS_DIR)/%.o, ${SOURCES})
         
-TARGET        = libvtStorAta.so.1.0.0
-TARGET0       = libvtStorAta.so
-TARGET1       = libvtStorAta.so.1
-TARGET2       = libvtStorAta.so.1.0
+TARGET        = libvtStorAta.so
 
 all: directories compile Makefile  $(DEST_DIR)/$(TARGET)
 
@@ -59,11 +56,8 @@ $(OBJECTS_DIR)/%.o: %.cpp
 
 # Build rules
 $(DEST_DIR)/$(TARGET): $(DEST_DIR)/libStorageUtility.a $(OBJECTS) $(SUBLIBS) $(OBJCOMP)  
-	-$(DEL_FILE) $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET0) $(DEST_DIR)/$(TARGET1) $(DEST_DIR)/$(TARGET2)
-	$(LINK) $(LFLAGS) -o $(DEST_DIR)/$(TARGET) $(OBJECTS) $(LIBS) $(OBJCOMP)
-	-ln -s $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET0)
-	-ln -s $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET1)
-	-ln -s $(DEST_DIR)/$(TARGET) $(DEST_DIR)/$(TARGET2)
+	-$(DEL_FILE) $(DEST_DIR)/$(TARGET)
+	$(LINK) $(LFLAGS) -o $(DEST_DIR)/$(TARGET) $(OBJECTS) $(LIBS) $(OBJCOMP)	
     
 clean: 
 	-$(DEL_FILE) $(OBJECTS)
