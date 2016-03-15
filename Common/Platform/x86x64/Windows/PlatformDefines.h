@@ -82,7 +82,7 @@ namespace vtStor
     struct sDeviceHandle
     {
         HANDLE Handle;
-        eBusType Bus;
+        unsigned char Bus;
     };
     using DeviceHandle = sDeviceHandle;
 }

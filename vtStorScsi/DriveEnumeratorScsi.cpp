@@ -49,34 +49,25 @@ namespace vtStor
             return(nullptr);
         }
 
-        sStorageAdapterProperty storageAdapterProperty;
-        errorCode = GetStorageAdapterProperty(deviceHandle, storageAdapterProperty);
-
-        if (eErrorCode::None != errorCode)
+        if (true == IsScsiDeviceBus(deviceHandle))
         {
-            //TODO: handle error
-            return(nullptr);
-        }
+            U32 physicalDiskNumber;
+            errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
+            if (eErrorCode::None != errorCode)
+            {
+                //TODO: handle error
+                return(nullptr);
+            }
 
-        U32 physicalDiskNumber;
-        errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
-        if (eErrorCode::None != errorCode)
-        {
-            //TODO: handle error
-            return(nullptr);
-        }
+            tchar* devicePath;
+            Device->DevicePath(devicePath);
 
-        tchar* devicePath;
-        Device->DevicePath(devicePath);
+            // Add drive propeties to the container
+            std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
+            driveProperties->PhysicalDiskNumber = physicalDiskNumber;
+            driveProperties->DevicePath = devicePath;
 
-        // Add drive propeties to the container
-        std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
-        driveProperties->PhysicalDiskNumber = physicalDiskNumber;
-        driveProperties->DevicePath = devicePath;
-
-        if (true == IsScsiDeviceBus(storageAdapterProperty))
-        {
-            deviceHandle.Bus = eBusType::Scsi;
+            deviceHandle.Bus = (unsigned char)eBusType::Scsi;
             std::shared_ptr<IDrive> drive = std::make_shared<cDriveScsi>(Device, deviceHandle, driveProperties);
 
             return(drive);

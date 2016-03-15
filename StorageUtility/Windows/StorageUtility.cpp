@@ -144,7 +144,7 @@ eErrorCode EnumerateDevices( sEnumerateDevicesCallback& Callback, const GUID* In
     return( eErrorCode::None );
 }
 
-eErrorCode GetStorageAdapterProperty( const DeviceHandle& Handle, sStorageAdapterProperty& AdapterProperty )
+eErrorCode GetStorageAdapterProperty( DeviceHandle& Handle, sStorageAdapterProperty& AdapterProperty )
 {
     STORAGE_DESCRIPTOR_HEADER storageDescHeader;
 
@@ -197,7 +197,7 @@ eErrorCode GetStorageAdapterProperty( const DeviceHandle& Handle, sStorageAdapte
     AdapterProperty.BusType = pstorageAdapterDesc->BusType;
     //iAdapterProperty.SrbType = pstorageAdapterDesc->SrbType;  TODO check this
     AdapterProperty.AlignmentMask = pstorageAdapterDesc->AlignmentMask;
-
+    Handle.Bus = (unsigned char)AdapterProperty.BusType;
     HeapFree(GetProcessHeap(), HEAP_NO_SERIALIZE, pstorageAdapterDesc);
 
     return( eErrorCode::None );
@@ -235,12 +235,12 @@ void CloseDeviceHandle(DeviceHandle& Handle)
         //fprintf(stderr, "\nCloseDeviceHandle was not successful. Error Code: %d", GetLastError());
     }
     Handle.Handle = INVALID_HANDLE_VALUE;
-    Handle.Bus = eBusType::Undefined;
+    Handle.Bus = (unsigned char) eBusType::Undefined;
 }
 
-bool IsAtaDeviceBus(const sStorageAdapterProperty& StorageDeviceProperty )
+bool IsAtaDeviceBus(const DeviceHandle& Handle)
 {
-    switch ( StorageDeviceProperty.BusType )
+    switch (Handle.Bus)
     {
         case BusTypeRAID:
         case BusTypeAta:
@@ -255,9 +255,9 @@ bool IsAtaDeviceBus(const sStorageAdapterProperty& StorageDeviceProperty )
     }
 }
 
-bool IsScsiDeviceBus(const sStorageAdapterProperty& StorageDeviceProperty)
+bool IsScsiDeviceBus(const DeviceHandle& Handle)
 {
-    switch (StorageDeviceProperty.BusType)
+    switch (Handle.Bus)
     {
         case BusTypeScsi:
         case BusTypeUsb:

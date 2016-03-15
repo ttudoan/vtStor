@@ -50,34 +50,25 @@ std::shared_ptr<IDrive> cDriveEnumeratorAta::EnumerateDrive(const std::shared_pt
         return( nullptr );
     }
 
-    sStorageAdapterProperty storageAdapterProperty;
-    errorCode = GetStorageAdapterProperty( deviceHandle, storageAdapterProperty );
-
-    if ( eErrorCode::None != errorCode )
+    if (true == IsAtaDeviceBus(deviceHandle))
     {
-        //TODO: handle error
-        return( nullptr );
-    }
+        U32 physicalDiskNumber;
+        errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
+        if (eErrorCode::None != errorCode)
+        {
+            //TODO: handle error
+            return(nullptr);
+        }
 
-    U32 physicalDiskNumber;
-    errorCode = GetPhysicalDiskNumber(deviceHandle, physicalDiskNumber);
-    if (eErrorCode::None != errorCode)
-    {
-        //TODO: handle error
-        return(nullptr);
-    }
+        tchar* devicePath;
+        Device->DevicePath(devicePath);
 
-    tchar* devicePath;
-    Device->DevicePath(devicePath);
+        // Add drive propeties to the container
+        std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
+        driveProperties->PhysicalDiskNumber = physicalDiskNumber;
+        driveProperties->DevicePath = devicePath;
 
-    // Add drive propeties to the container
-    std::shared_ptr<vtStor::sDriveProperties> driveProperties = std::make_shared<vtStor::sDriveProperties>();
-    driveProperties->PhysicalDiskNumber = physicalDiskNumber;
-    driveProperties->DevicePath = devicePath;
-
-    if ( true == IsAtaDeviceBus( storageAdapterProperty ) )
-    {
-        deviceHandle.Bus = eBusType::Ata;
+        deviceHandle.Bus = (unsigned char)eBusType::Ata;
         std::shared_ptr<IDrive> drive = std::make_shared<cDriveAta>(Device, deviceHandle, driveProperties);
 
         return( drive );

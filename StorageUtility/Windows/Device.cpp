@@ -75,7 +75,8 @@ eErrorCode cDevice::GetStorageDeviceHandle(const String& DevicePath, DeviceHandl
         return(eErrorCode::Io);
     }
 
-    Handle.Bus = eBusType::Undefined;
+    sStorageAdapterProperty storageAdapterProperty;
+    eErrorCode errorCode = GetStorageAdapterProperty(Handle, storageAdapterProperty);
     return(eErrorCode::None);
 }
 
